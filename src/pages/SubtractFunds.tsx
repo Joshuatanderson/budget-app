@@ -11,9 +11,8 @@ import {
 	IonItem,
 	IonLabel,
 	IonButton,
-	IonText,
 } from "@ionic/react";
-import "./AddFunds.css";
+import "./SubtractFunds.css";
 import { FirebaseContext } from "../contexts/firebase";
 import { User } from "firebase";
 import { UserContext } from "../contexts/firebase/UserContext";
@@ -24,10 +23,10 @@ interface LocationModel {
 	};
 }
 
-const AddFunds: React.FC = (props) => {
+const SubtractFunds: React.FC = (props) => {
 	const db = useContext(FirebaseContext);
 	const [text, setText] = useState<number>();
-	const [currentBudget, setCurrentBudget] = useState<number>(0);
+	const [currentBudget, setCurrentBudget] = useState<number>();
 	const { user } = useContext(UserContext);
 
 	useEffect(() => {
@@ -48,16 +47,16 @@ const AddFunds: React.FC = (props) => {
 
 	const handleSubmit = async () => {
 		if (text && currentBudget) {
-			const newTotal = (currentBudget as number) + text;
-			addFunds();
+			const newTotal = (currentBudget as number) - text;
+			subtractFunds();
 		}
 
-		async function addFunds() {
+		async function subtractFunds() {
 			db.collection("budgets").doc(user?.uid).update({
 				total: text,
 			});
 
-			setCurrentBudget((text as number) + (currentBudget as number));
+			setCurrentBudget((currentBudget as number) - (text as number));
 			setText(0);
 		}
 	};
@@ -87,14 +86,14 @@ const AddFunds: React.FC = (props) => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Add Funds - {user?.displayName} </IonTitle>
+					<IonTitle>Subtract Funds - {user?.displayName} </IonTitle>
 					<IonTitle color="light"></IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
 					<IonToolbar>
-						<IonTitle size="large">Add Funds</IonTitle>
+						<IonTitle size="large">Subract Funds</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonCard>
@@ -102,7 +101,7 @@ const AddFunds: React.FC = (props) => {
 						Current funding amount: ${currentBudget}
 					</IonCardHeader>
 					<IonItem>
-						<IonLabel>New funding</IonLabel>
+						<IonLabel>Expenditure Amount</IonLabel>
 						<IonInput
 							value={text}
 							onIonChange={(e: CustomEvent) => handleInput(e.detail.value)}
@@ -116,4 +115,4 @@ const AddFunds: React.FC = (props) => {
 	);
 };
 
-export default AddFunds;
+export default SubtractFunds;

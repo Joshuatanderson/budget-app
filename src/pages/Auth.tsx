@@ -9,10 +9,6 @@ interface AuthModel {
 }
 
 const Auth = ({ user, setUser }: AuthModel) => {
-	const handleSuccess = function () {
-		return true;
-	};
-
 	const uiConfig = {
 		callbacks: {
 			signInSuccessWithAuthResult: function (
@@ -20,7 +16,7 @@ const Auth = ({ user, setUser }: AuthModel) => {
 				redirectUrl: string
 			) {
 				console.log(authResult);
-				setUser(authResult)
+				setUser(authResult.user);
 				// User successfully signed in.
 				// Return type determines whether we continue the redirect automatically
 				// or whether we leave that to developer to handle.
