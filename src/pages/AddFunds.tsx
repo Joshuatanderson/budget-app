@@ -18,71 +18,43 @@ import { FirebaseContext } from "../contexts/firebase";
 import { User } from "firebase";
 import { UserContext } from "../contexts/firebase/UserContext";
 
-interface LocationModel {
-	state: {
-		user: User;
-	};
+interface AddFundsModel {
+	// handleInput: (update: string) => void;
+	handleUpdate: (mode: "add", update: number) => void;
+	currentBudget: number | undefined;
 }
 
-const AddFunds: React.FC = (props) => {
-	const db = useContext(FirebaseContext);
-	const [text, setText] = useState<number>();
-	const [currentBudget, setCurrentBudget] = useState<number>(0);
+const AddFunds = ({
+	// handleInput,
+	handleUpdate,
+	currentBudget,
+}: AddFundsModel) => {
+	// const db = useContext(FirebaseContext);
+	const [text, setText] = useState<number | undefined>();
 	const { user } = useContext(UserContext);
 
-	useEffect(() => {
-		fetchBudgetData();
-		async function fetchBudgetData() {
-			const current = await getInfo();
-			if (current) {
-				setCurrentBudget(current);
-			} else {
-				console.error("unable to set current budget");
-			}
-		}
-	}, []);
+	// useEffect(() => {
+	// 	fetchBudgetData();
+	// 	async function fetchBudgetData() {
+	// 		const current = await getInfo();
+	// 		if (current) {
+	// 			setCurrentBudget(current);
+	// 		} else {
+	// 			console.error("unable to set current budget");
+	// 		}
+	// 	}
+	// }, []);
 
 	const handleInput = (update: string) => {
 		setText(parseInt(update));
 	};
 
-	const handleSubmit = async () => {
-		if (text && currentBudget) {
-			const newTotal = (currentBudget as number) + text;
-			addFunds();
+	const handleSubmit = () => {
+		if (text) {
+			handleUpdate("add", text);
 		}
-
-		async function addFunds() {
-			db.collection("budgets").doc(user?.uid).update({
-				total: text,
-			});
-
-			setCurrentBudget((text as number) + (currentBudget as number));
-			setText(0);
-		}
-	};
-
-	const getInfo = async () => {
-		let info: number = 0;
-		await db
-			.collection("budgets")
-			.doc("main")
-			.get()
-			.then((doc) => {
-				if (doc.exists) {
-					const data = doc.data();
-					info = data?.total;
-				} else {
-					console.error("doc does not exist");
-				}
-			})
-			.catch((err) => console.error(err));
-		console.log(typeof info);
-		return info;
-	};
-
-	console.log(user);
-
+		setText(undefined);
+};
 	return (
 		<IonPage>
 			<IonHeader>
@@ -109,7 +81,7 @@ const AddFunds: React.FC = (props) => {
 							type="number"
 						/>
 					</IonItem>
-					<IonButton onClick={handleSubmit}>Submit</IonButton>
+					<IonButton onClick={() => handleSubmit()}>Submit</IonButton>
 				</IonCard>
 			</IonContent>
 		</IonPage>

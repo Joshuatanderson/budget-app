@@ -65,7 +65,7 @@ const SubtractFunds: React.FC = (props) => {
 		let info: number = 0;
 		await db
 			.collection("budgets")
-			.doc("main")
+			.doc(user?.uid)
 			.get()
 			.then((doc) => {
 				if (doc.exists) {

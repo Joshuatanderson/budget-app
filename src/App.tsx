@@ -39,6 +39,7 @@ import { db } from "./contexts/firebase/db";
 import Auth from "./pages/Auth";
 import { User } from "firebase";
 import { UserContext } from "./contexts/firebase/UserContext";
+import FundingModel from "./pages/FundingModel";
 
 const App: React.FC = () => {
 	const [user, setUser] = useState<User>();
@@ -52,7 +53,7 @@ const App: React.FC = () => {
 						<IonReactRouter>
 							<IonTabs>
 								<IonRouterOutlet>
-									<Route path="/tab1" component={AddFunds} exact={true} />
+									<Route path="/tab1" component={FundingModel} exact={true} />
 									<Route path="/tab2" component={SubtractFunds} exact={true} />
 									<Route path="/tab3" component={Tab3} />
 									<Route
