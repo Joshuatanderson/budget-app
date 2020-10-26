@@ -14,12 +14,11 @@ import {
 	IonText,
 } from "@ionic/react";
 import "./AddFunds.css";
-import { FirebaseContext } from "../contexts/firebase";
+import { FirebaseContext } from "../../contexts/firebase";
 import { User } from "firebase";
-import { UserContext } from "../contexts/firebase/UserContext";
+import { UserContext } from "../../contexts/firebase/UserContext";
 
-interface AddFundsModel {
-	// handleInput: (update: string) => void;
+export interface AddFundsModel {
 	handleUpdate: (mode: "add", update: number) => void;
 	currentBudget: number | undefined;
 }

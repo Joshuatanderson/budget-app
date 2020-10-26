@@ -1,32 +1,14 @@
-import { sunny } from "ionicons/icons";
-import React, {
-	useContext,
-	useState,
-	useEffect,
-	Fragment,
-	ReactComponentElement,
-	Component,
-	ReactType,
-	ComponentType,
-} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
-import { FirebaseContext } from "../contexts/firebase";
-import { UserContext } from "../contexts/firebase/UserContext";
-import AddFunds, { AddFundsModel } from "./addFunds/AddFunds";
-import SubtractFunds, {
-	SubtractFundsModel,
-} from "./subtractFunds/SubtractFunds";
+import { FirebaseContext } from "../../contexts/firebase";
+import { UserContext } from "../../contexts/firebase/UserContext";
+import AddFunds from ".././addFunds/AddFunds";
 
-interface ViewProps {
-	handleUpdate: (mode: "add" | "subtract", update: number) => Promise<void>;
-	update: number;
-}
-
-interface FundingModelProps {
+interface AddFundsWrappedProps {
 	ViewComponent: React.Component<{} & RouteComponentProps<{}>, null>;
 }
 
-function FundingModel({ ViewComponent }: FundingModelProps) {
+function AddFundsWrapped() {
 	const db = useContext(FirebaseContext);
 	const [currentBudget, setCurrentBudget] = useState<number>();
 	const { user } = useContext(UserContext);
@@ -72,6 +54,7 @@ function FundingModel({ ViewComponent }: FundingModelProps) {
 	};
 
 	const getBudget = async () => {
+		db.collection("budgets").doc(user?.uid).set({ total: 0 }, { merge: true });
 		let info: number = 0;
 		await db
 			.collection("budgets")
@@ -82,9 +65,6 @@ function FundingModel({ ViewComponent }: FundingModelProps) {
 					info = data?.total;
 					setCurrentBudget(info);
 				} else {
-					db.collection("budgets")
-						.doc(user?.uid)
-						.set({ total: 0 }, { merge: true });
 					console.error("doc does not exist");
 				}
 			});
@@ -94,4 +74,4 @@ function FundingModel({ ViewComponent }: FundingModelProps) {
 	return <AddFunds handleUpdate={handleUpdate} currentBudget={currentBudget} />;
 }
 
-export default FundingModel;
+export default AddFundsWrapped;

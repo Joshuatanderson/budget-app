@@ -11,8 +11,6 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { ellipse, square, triangle } from "ionicons/icons";
-import AddFunds from "./pages/AddFunds";
-import SubtractFunds from "./pages/SubtractFunds";
 import Tab3 from "./pages/Tab3";
 
 import { FirebaseContext } from "./contexts/firebase/index";
@@ -39,7 +37,8 @@ import { db } from "./contexts/firebase/db";
 import Auth from "./pages/Auth";
 import { User } from "firebase";
 import { UserContext } from "./contexts/firebase/UserContext";
-import FundingModel from "./pages/FundingModel";
+import SubtractFundsWrapped from "./pages/uglyHackBurnWithFire/SubtractFundsWrapped";
+import AddFundsWrapped from "./pages/uglyHackBurnWithFire/AddFundsWrapped";
 
 const App: React.FC = () => {
 	const [user, setUser] = useState<User>();
@@ -53,8 +52,16 @@ const App: React.FC = () => {
 						<IonReactRouter>
 							<IonTabs>
 								<IonRouterOutlet>
-									<Route path="/tab1" component={FundingModel} exact={true} />
-									<Route path="/tab2" component={SubtractFunds} exact={true} />
+									<Route
+										path="/tab1"
+										component={AddFundsWrapped}
+										exact={true}
+									/>
+									<Route
+										path="/tab2"
+										component={SubtractFundsWrapped}
+										exact={true}
+									/>
 									<Route path="/tab3" component={Tab3} />
 									<Route
 										path="/"
