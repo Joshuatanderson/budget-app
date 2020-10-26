@@ -53,7 +53,7 @@ const AddFunds = ({
 			handleUpdate("add", text);
 		}
 		setText(undefined);
-};
+	};
 	return (
 		<IonPage>
 			<IonHeader>
@@ -65,7 +65,7 @@ const AddFunds = ({
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
 					<IonToolbar>
-						<IonTitle size="large">Add Funds</IonTitle>
+						<IonTitle size="large">Add Funds - {user?.displayName}</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonCard>

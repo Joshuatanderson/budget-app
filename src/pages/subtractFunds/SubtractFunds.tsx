@@ -97,7 +97,9 @@ const SubtractFunds = ({ handleUpdate, currentBudget }: SubtractFundsModel) => {
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
 					<IonToolbar>
-						<IonTitle size="large">Subract Funds</IonTitle>
+						<IonTitle size="large">
+							Subract Funds - {user?.displayName}
+						</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonCard>

@@ -54,7 +54,6 @@ function AddFundsWrapped() {
 	};
 
 	const getBudget = async () => {
-		db.collection("budgets").doc(user?.uid).set({ total: 0 }, { merge: true });
 		let info: number = 0;
 		await db
 			.collection("budgets")
@@ -65,6 +64,10 @@ function AddFundsWrapped() {
 					info = data?.total;
 					setCurrentBudget(info);
 				} else {
+					db.collection("budgets")
+						.doc(user?.uid)
+						.set({ total: 0 }, { merge: true });
+
 					console.error("doc does not exist");
 				}
 			});
